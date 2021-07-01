@@ -1,4 +1,5 @@
 import { Component, OnInit} from "@angular/core";
+import { MyAppService } from "src/app/my-app/my-app.service";
 
 import { Post } from '../post.model';
 import { PostService } from '../posts.service';
@@ -12,17 +13,16 @@ import { PostService } from '../posts.service';
 
 
 export class PostListComponent implements OnInit {
-  posts: Post[] = [];
+  posts: any;
 
-  constructor(public postService: PostService) {}
-
+  constructor(public postService: PostService, public myappService:MyAppService) {}
 
   ngOnInit() {
-    this.posts = this.postService.getPosts();
-    this.postService.getPostUpdateListener()
-      .subscribe((posts: Post[]) => {
-        this.posts = posts;
-      });
+    //this.posts = this.postService.getPosts();
+    this.myappService.getblogs().subscribe((data) => {
+      this.posts = data;
+      console.log('posts', this.posts);
+    });
   }
 }
 

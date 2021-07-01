@@ -1,5 +1,6 @@
 import { Component} from "@angular/core";
 import { NgForm } from "@angular/forms";
+import { MyAppService } from "src/app/my-app/my-app.service";
 
 import { PostService } from "../posts.service";
 @Component ({
@@ -12,12 +13,14 @@ export class PostCreateComponent {
   enteredAuthor = "";
   enteredContent = "";
 
-  constructor (public postService:PostService) {}
+  constructor (public postService:PostService, public myappService:MyAppService) {}
 
   onAddPost(form: NgForm) {
     if (form.invalid) {
       return;
     }
-    this.postService.addPost(form.value.title, form.value.author, form.value.content)
+    this.postService.addPost(form.value.title, form.value.author, form.value.content);
+    console.log(form.value);
+    this.myappService.addPost(form.value.title, form.value.author, form.value.content);
   }
 }

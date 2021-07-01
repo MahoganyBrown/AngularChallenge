@@ -1,5 +1,6 @@
+import { Post } from '../posts/post.model';
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, JsonpClientBackend } from '@angular/common/http';
 
 
 @Injectable({
@@ -8,13 +9,17 @@ import { HttpClient } from '@angular/common/http';
 export class MyAppService {
   constructor(private http: HttpClient) { }
 
-  uri = 'http://localhost:4100/postBlog';
+  uri = 'http://localhost:4100';
+  blogs: any[] = [];
 
 
 
-  getIssues() {
-    return this.http.get(`${this.uri}/blogs`);
-  }
+
+  getblogs() {
+    let blogs: any;
+    console.log("in service");
+    return this.http.get(`${this.uri}/getBlogs`);
+ }
 
   getIssueById(id) {
     return this.http.get(`${this.uri}/blogs/${id}`);
@@ -26,8 +31,13 @@ export class MyAppService {
       content: content,
       author: author,
 
+
     };
-    return this.http.post(`${this.uri}/issues/add`, blog);
+
+    console.log(blog);
+    this.http.post(`${this.uri}/postBlog`, blog ,{responseType: "text"}).subscribe(data => {
+      console.log(data);
+  });
   }
 
   deleteIssue(id) {
